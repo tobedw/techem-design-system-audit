@@ -76,6 +76,7 @@
       badgeOfficial: "offiziell", badgeInternal: "intern", badgeAdhoc: "kein Schema",
 
       detailOverview: "Übersicht", detailKey: "Key:", detailExtractedId: "Erkannte ID:", detailNone: "keine",
+      sidesheetFigmaLink: "In Figma öffnen",
       detailUsageSet: (n, d) => `Verschachtelte Instanzen im 1. Variant: <b>${n}</b>, max. Tiefe: <b>${d}</b>`,
       detailUsageStandalone: (n, p) => `Instanzen (in dieser Datei gefunden): <b>${n}</b> auf ${p} Page(s)`,
       detailDescription: "Beschreibung:", detailAxes: "Varianten-Achsen", detailAxesValues: v => `${v} Werte`,
@@ -208,6 +209,7 @@
       badgeOfficial: "official", badgeInternal: "internal", badgeAdhoc: "no scheme",
 
       detailOverview: "Overview", detailKey: "Key:", detailExtractedId: "Detected ID:", detailNone: "none",
+      sidesheetFigmaLink: "Open in Figma",
       detailUsageSet: (n, d) => `Nested instances in the 1st variant: <b>${n}</b>, max. depth: <b>${d}</b>`,
       detailUsageStandalone: (n, p) => `Instances found in this file: <b>${n}</b> across ${p} page(s)`,
       detailDescription: "Description:", detailAxes: "Variant Axes", detailAxesValues: v => `${v} values`,
@@ -303,6 +305,7 @@
     max_depth: r.max_depth, findings: r.findings, finding_count: r.finding_count, description: r.description, key: r.key,
     variant_axes: r.variant_axes, prop_defs_list: r.prop_defs_list, dependency_names: r.dependency_names || [],
     is_broken: r.is_broken, is_duplicate_id: r.is_duplicate_id, id_mismatch: r.id_mismatch, is_known_duplicate_component: r.is_known_duplicate_component,
+    node_id: r.set_id,
   }));
 
   const standalones = DATA.standaloneComponents.map(r => ({
@@ -311,7 +314,13 @@
     nested_instance_count: 0, max_depth: 0, findings: r.findings, finding_count: r.finding_count, description: r.description,
     key: r.key, variant_axes: {}, prop_defs_list: [], dependency_names: [], instance_total: r.instance_total, instance_pages: r.instance_pages,
     is_broken: false, is_duplicate_id: false, id_mismatch: false, is_known_duplicate_component: false,
+    node_id: r.comp_id,
   }));
+
+  function figmaNodeUrl(nodeId) {
+    if (!nodeId) return null;
+    return `https://www.figma.com/design/${DATA.meta.fileKey}/?node-id=${encodeURIComponent(nodeId.replace(":", "-"))}`;
+  }
 
   const ALL_ITEMS = sets.concat(standalones);
   const allFindingTags = new Set();
@@ -895,10 +904,23 @@
     document.getElementById("sidesheet-title").textContent = it.name;
     document.getElementById("sidesheet-badges").innerHTML = `${badgeForIdStatus(it.id_status)}${badgeForFamily(it.family_type)}`;
     document.getElementById("sidesheet-body").innerHTML = renderSidesheetBody(it);
+    updateSidesheetFigmaLink(it);
 
     document.getElementById("sidesheet").classList.add("open");
     document.getElementById("sidesheet-backdrop").classList.add("open");
     document.getElementById("sidesheet").currentItem = it;
+  }
+
+  function updateSidesheetFigmaLink(it) {
+    const linkEl = document.getElementById("sidesheet-figma-link");
+    const url = figmaNodeUrl(it.node_id);
+    if (url) {
+      linkEl.href = url;
+      linkEl.style.display = "flex";
+      setText("t-sidesheet-figma-link", t("sidesheetFigmaLink"));
+    } else {
+      linkEl.style.display = "none";
+    }
   }
 
   function closeSidesheet() {
@@ -1120,6 +1142,7 @@
     document.getElementById("sidesheet-eyebrow").textContent = it.page_name;
     document.getElementById("sidesheet-badges").innerHTML = `${badgeForIdStatus(it.id_status)}${badgeForFamily(it.family_type)}`;
     document.getElementById("sidesheet-body").innerHTML = renderSidesheetBody(it);
+    updateSidesheetFigmaLink(it);
     const row = document.querySelector(`#explorer-tbody tr.row-main[data-key="${CSS.escape(it.key || it.name)}"]`);
     if (row) { row.classList.add("active"); sidesheetActiveRow = row; }
   }
