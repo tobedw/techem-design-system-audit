@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Techem Design System – Audit Dashboard</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="lang-switch" id="lang-switch">
+    <button type="button" class="lang-btn" data-lang="de" id="lang-btn-de">DE</button>
+    <button type="button" class="lang-btn" data-lang="en" id="lang-btn-en">EN</button>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow" id="t-eyebrow">–</div>
+    <h1 id="t-title">–</h1>
+    <div class="hero-grid">
+      <div class="hero-score-ring" id="hero-score-ring">
+        <svg viewBox="0 0 128 128">
+          <circle cx="64" cy="64" r="56" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="10"/>
+          <circle id="hero-score-arc" cx="64" cy="64" r="56" fill="none" stroke="white" stroke-width="10" stroke-linecap="round" stroke-dasharray="352" stroke-dashoffset="352"/>
+        </svg>
+        <div class="ring-value"><span class="num" id="hero-score-num">–</span><span class="lbl" id="t-hero-score-lbl">–</span></div>
+      </div>
+      <p class="hero-verdict" id="t-hero-verdict">–</p>
+    </div>
+    <div class="hero-meta-line">
+      <span id="t-meta-date-label">–</span>
+      <span id="t-meta-scope-label">–</span>
+      <span id="t-meta-reuse-note">–</span>
+    </div>
+  </div>
+</header>
+
+<nav class="chapter-nav" id="chapter-nav">
+  <div class="view-tabs">
+    <button type="button" class="view-tab active" data-view="report" id="tab-report">📄 <span id="t-tab-report">–</span></button>
+    <button type="button" class="view-tab" data-view="stats" id="tab-stats">📊 <span id="t-tab-stats">–</span></button>
+  </div>
+  <div class="chapter-links" id="chapter-links">
+    <a href="#chapter-overview" data-chapter="chapter-overview" id="nav-overview">–</a>
+    <a href="#chapter-recommendations" data-chapter="chapter-recommendations" id="nav-recommendations">–</a>
+    <a href="#chapter-findings" data-chapter="chapter-findings" id="nav-findings">–</a>
+    <a href="#chapter-architecture" data-chapter="chapter-architecture" id="nav-architecture">–</a>
+    <a href="#chapter-tokens" data-chapter="chapter-tokens" id="nav-tokens">–</a>
+    <a href="#chapter-explorer" data-chapter="chapter-explorer" id="nav-explorer">–</a>
+  </div>
+</nav>
+
+<main id="main-report">
+
+  <!-- CHAPTER: OVERVIEW -->
+  <section class="chapter" id="chapter-overview">
+    <div class="chapter-eyebrow" id="t-ov-eyebrow">–</div>
+    <h2 class="chapter-title" id="t-ov-title">–</h2>
+    <p class="chapter-sub" id="t-ov-sub">–</p>
+    <div class="kpi-row" id="kpi-grid"></div>
+  </section>
+
+  <!-- CHAPTER: RECOMMENDATIONS -->
+  <section class="chapter" id="chapter-recommendations">
+    <div class="chapter-eyebrow" id="t-reco-eyebrow">–</div>
+    <h2 class="chapter-title" id="t-sec-reco-title">–</h2>
+    <p class="chapter-sub" id="t-sec-reco-sub">–</p>
+    <div class="reco-list" id="reco-grid"></div>
+  </section>
+
+  <!-- CHAPTER: FINDINGS BROWSER (ersetzt Naming/API/Duplicate/Foundations-Grids) -->
+  <section class="chapter" id="chapter-findings">
+    <div class="chapter-eyebrow" id="t-find-eyebrow">–</div>
+    <h2 class="chapter-title" id="t-sec-naming-title">–</h2>
+    <p class="chapter-sub" id="t-sec-naming-sub">–</p>
+    <div class="findings-topics" id="findings-topics"></div>
+    <div class="findings-list" id="findings-list"></div>
+    <button class="show-more-btn" id="findings-show-more" style="display:none;"></button>
+  </section>
+
+  <!-- CHAPTER: ARCHITECTURE & REUSE -->
+  <section class="chapter" id="chapter-architecture">
+    <div class="chapter-eyebrow" id="t-arch-eyebrow">–</div>
+    <h2 class="chapter-title" id="t-sec-complexity-title">–</h2>
+    <p class="chapter-sub" id="t-sec-complexity-sub">–</p>
+    <div class="quadrant-wrap">
+      <svg id="quadrant-svg" viewBox="0 0 900 420"></svg>
+    </div>
+    <div class="quad-tooltip" id="quad-tooltip"></div>
+
+    <div class="stat-strip-group" id="variant-structure-strip"></div>
+    <div class="callout" id="variant-structure-conclusion"></div>
+
+    <div class="stat-strip-group" id="toplevel-strip" style="margin-top: var(--space-lg);"></div>
+    <div class="callout callout-highlight" id="toplevel-conclusion"></div>
+  </section>
+
+  <!-- CHAPTER: TOKENS -->
+  <section class="chapter" id="chapter-tokens">
+    <div class="chapter-eyebrow" id="t-tok-eyebrow">–</div>
+    <h2 class="chapter-title" id="t-sec-tokens-title">–</h2>
+    <p class="chapter-sub" id="t-sec-tokens-sub">–</p>
+    <div class="token-collections" id="token-collections"></div>
+    <div id="dup-groups"></div>
+    <button class="show-more-btn dup-groups-toggle" id="dup-groups-show-more"></button>
+  </section>
+
+  <!-- CHAPTER: EXPLORER (Werkzeug) -->
+  <section class="chapter chapter-tool" id="chapter-explorer">
+    <div class="chapter-eyebrow" id="t-expl-eyebrow">–</div>
+    <h2 class="chapter-title" id="t-sec-explorer-title">–</h2>
+    <p class="chapter-sub" id="t-sec-explorer-sub">–</p>
+
+    <div class="legend-row">
+      <span><i class="legend-dot" style="background:#e6f7ee"></i> <span id="t-legend-official">–</span></span>
+      <span><i class="legend-dot" style="background:#fff3e0"></i> <span id="t-legend-internal">–</span></span>
+      <span><i class="legend-dot" style="background:#fdeceb"></i> <span id="t-legend-adhoc">–</span></span>
+    </div>
+
+    <div class="explorer-toolbar">
+      <input type="search" id="f-search">
+      <select id="f-kind">
+        <option value="all" id="opt-kind-all">–</option>
+        <option value="Set" id="opt-kind-set">–</option>
+        <option value="Standalone" id="opt-kind-standalone">–</option>
+      </select>
+      <select id="f-idstatus">
+        <option value="all" id="opt-idstatus-all">–</option>
+        <option value="official" id="opt-idstatus-official">–</option>
+        <option value="internal" id="opt-idstatus-internal">–</option>
+        <option value="adhoc" id="opt-idstatus-adhoc">–</option>
+      </select>
+      <select id="f-family">
+        <option value="all" id="opt-family-all">–</option>
+        <option value="Base">Base</option>
+        <option value="Compound">Compound</option>
+        <option value="Complex Compound">Complex Compound</option>
+      </select>
+      <select id="f-findingtag">
+        <option value="all" id="opt-findingtag-all">–</option>
+      </select>
+      <label class="checkbox"><input type="checkbox" id="f-onlyfindings"> <span id="t-only-findings">–</span></label>
+      <button class="clear-btn" id="f-clear">–</button>
+    </div>
+
+    <div class="result-count" id="result-count"></div>
+
+    <div class="table-wrap">
+      <table class="explorer-table" id="explorer-table">
+        <thead>
+          <tr>
+            <th scope="col" data-key="name" tabindex="0" role="button"><span class="th-label" id="th-name">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="page_name" tabindex="0" role="button"><span class="th-label" id="th-page">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="kind" tabindex="0" role="button"><span class="th-label" id="th-kind">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="id_status" tabindex="0" role="button"><span class="th-label" id="th-idstatus">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="family_type" tabindex="0" role="button"><span class="th-label" id="th-family">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="variant_count" tabindex="0" role="button" class="num-cell"><span class="th-label" id="th-variants">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="complexity_score" tabindex="0" role="button" class="num-cell"><span class="th-label" id="th-complexity">–</span> <span class="sort-ind">▾</span></th>
+            <th scope="col" data-key="finding_count" tabindex="0" role="button" class="num-cell"><span class="th-label" id="th-findings">–</span> <span class="sort-ind">▾</span></th>
+          </tr>
+        </thead>
+        <tbody id="explorer-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- STATS VIEW: Infografik-Erklärung für Nicht-Designer/-Entwickler -->
+<section id="stats-view" style="display:none;">
+  <div class="stats-inner">
+
+    <div class="stats-intro">
+      <h2 id="t-stats-intro-title">–</h2>
+      <p id="t-stats-intro-sub">–</p>
+    </div>
+
+    <!-- 1. Gesamt-Note -->
+    <div class="stat-block">
+      <h3 id="t-stat1-title">–</h3>
+      <div class="stat-block-layout">
+        <div class="gauge-wrap">
+          <svg id="gauge-svg" viewBox="0 0 240 140"></svg>
+          <div class="gauge-value"><span class="num" id="gauge-num">–</span><span class="grade" id="gauge-grade">–</span></div>
+        </div>
+        <p class="stat-explain" id="t-stat1-explain">–</p>
+      </div>
+    </div>
+
+    <!-- 2. Namensregeln -->
+    <div class="stat-block">
+      <h3 id="t-stat2-title">–</h3>
+      <div class="stat-block-layout">
+        <div class="donut-wrap">
+          <svg id="donut1-svg" viewBox="0 0 200 200"></svg>
+          <div class="donut-center"><span class="num" id="donut1-num">–</span><span class="lbl" id="t-donut1-lbl">–</span></div>
+        </div>
+        <p class="stat-explain" id="t-stat2-explain">–</p>
+      </div>
+      <div class="analogy-box"><span class="analogy-kicker" id="t-analogy-kicker-1">–</span><p id="t-stat2-analogy">–</p></div>
+    </div>
+
+    <!-- 3. Doppelte Namen -->
+    <div class="stat-block">
+      <h3 id="t-stat3-title">–</h3>
+      <div class="stat-block-layout">
+        <div class="bar-chart" id="bar-chart-dup"></div>
+        <p class="stat-explain" id="t-stat3-explain">–</p>
+      </div>
+      <div class="analogy-box"><span class="analogy-kicker" id="t-analogy-kicker-2">–</span><p id="t-stat3-analogy">–</p></div>
+    </div>
+
+    <!-- 4. Ein Wort, viele Bedeutungen -->
+    <div class="stat-block">
+      <h3 id="t-stat4-title">–</h3>
+      <div class="word-hub" id="word-hub"></div>
+      <p class="stat-explain" id="t-stat4-explain">–</p>
+      <div class="analogy-box"><span class="analogy-kicker" id="t-analogy-kicker-3">–</span><p id="t-stat4-analogy">–</p></div>
+    </div>
+
+    <!-- 5. Kompliziertheit -->
+    <div class="stat-block">
+      <h3 id="t-stat5-title">–</h3>
+      <div class="stat-block-layout">
+        <div class="bar-chart" id="bar-chart-complex"></div>
+        <p class="stat-explain" id="t-stat5-explain">–</p>
+      </div>
+      <div class="analogy-box"><span class="analogy-kicker" id="t-analogy-kicker-4">–</span><p id="t-stat5-analogy">–</p></div>
+    </div>
+
+    <!-- 6. Echte Nutzung -->
+    <div class="stat-block">
+      <h3 id="t-stat6-title">–</h3>
+      <div class="stat-block-layout">
+        <div class="donut-wrap">
+          <svg id="donut2-svg" viewBox="0 0 200 200"></svg>
+          <div class="donut-center"><span class="num" id="donut2-num">–</span><span class="lbl" id="t-donut2-lbl">–</span></div>
+        </div>
+        <p class="stat-explain" id="t-stat6-explain">–</p>
+      </div>
+      <div class="analogy-box"><span class="analogy-kicker" id="t-analogy-kicker-5">–</span><p id="t-stat6-analogy">–</p></div>
+    </div>
+
+    <!-- 7. Kaputte Teile -->
+    <div class="stat-block">
+      <h3 id="t-stat7-title">–</h3>
+      <div class="broken-row" id="broken-row"></div>
+      <p class="stat-explain" id="t-stat7-explain">–</p>
+      <div class="analogy-box"><span class="analogy-kicker" id="t-analogy-kicker-6">–</span><p id="t-stat7-analogy">–</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SIDESHEET: Component-Detail (statt Inline-Expand) -->
+<div class="sidesheet-backdrop" id="sidesheet-backdrop"></div>
+<aside class="sidesheet" id="sidesheet" role="dialog" aria-modal="true" aria-labelledby="sidesheet-title">
+  <div class="sidesheet-header">
+    <div>
+      <div class="sidesheet-eyebrow" id="sidesheet-eyebrow">–</div>
+      <h3 id="sidesheet-title">–</h3>
+    </div>
+    <button class="sidesheet-close" id="sidesheet-close" aria-label="Close">✕</button>
+  </div>
+  <div class="sidesheet-badges" id="sidesheet-badges"></div>
+  <div class="sidesheet-body" id="sidesheet-body"></div>
+</aside>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4 id="t-footer-methodik-title">–</h4>
+      <ul id="t-footer-methodik-list"></ul>
+    </div>
+    <div>
+      <h4 id="t-footer-score-title">–</h4>
+      <ul id="t-footer-score-list"></ul>
+    </div>
+    <div>
+      <h4 id="t-footer-sources-title">–</h4>
+      <ul id="t-footer-sources-list"></ul>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js" defer></script>
+</body>
+</html>
